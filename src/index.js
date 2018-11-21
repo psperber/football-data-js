@@ -21,7 +21,7 @@ class FootballData {
   }
 
   competitions({areas, plan} = {}) {
-    return this._get(`/competitions?${qs.stringify({areas, plan})}`)
+    return this._get(`/competitions?${qs.stringify({areas: areas ? areas.join(',') : undefined, plan})}`)
       .then(data => data.competitions)
   }
 
@@ -59,7 +59,7 @@ class FootballData {
 
   matches(opts = {}) {
     const {competitions, dateFrom, dateTo, status} = opts
-    const querystring = qs.stringify({competitions, dateFrom, dateTo, status})
+    const querystring = qs.stringify({competitions: competitions ? competitions.join(',') : undefined, dateFrom, dateTo, status})
     return this._get(`/matches?${querystring}`)
       .then(data => data.matches)
   }
@@ -94,7 +94,7 @@ class FootballData {
 
   matchesOfPlayer(playerId, opts = {}) {
     const {dateFrom, dateTo, status, competitions, limit} = opts
-    const querystring = qs.stringify({dateFrom, dateTo, status, competitions, limit})
+    const querystring = qs.stringify({dateFrom, dateTo, status, competitions: competitions ? competitions.join(',') : undefined, limit})
     return this._get(`/players/${playerId}/matches?${querystring}`)
       .then(data => data.matches)
   }
